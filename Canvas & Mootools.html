@@ -13,11 +13,12 @@
                     this.figure = 1;
             this.posX = pX; //позиция шарика по X
                     this.posY = pY; //позиция шарика по Y
-                    this.directX = Math.random()*-8 + 3;
-                    this.directY = Math.random()*-8 + 3;
+                    this.directX = Math.random()*-8 + 3; //перемещение шарика рандомно с сохранением
+                    this.directY = Math.random()*-8 + 3; //перемещение шарика рандомно с сохранением
             //цвет шарика, формируется случайным оьразом
-            this.colBall = 'rgb('+Math.floor(Math.random()*256)+','
+            this.colBall = 'rgb('+Math.floor(Math.random()*256)+',' 
             +Math.floor(Math.random()*256)+','+Math.floor(Math.random()*256)+')';
+			//установка цвета по коду, например: rgb(155, 102, 102)
             // радиус шарика, случайное число от 5 до 30
             this.rBall = 5+Math.random()*25;
                 },
@@ -32,37 +33,37 @@
             // формируем градиентную заливку для шарика
             with (this){
             var gradient = ctx.createRadialGradient(posX+rBall/4,
-            posY-rBall/6, rBall/8, posX, posY, rBall);
-            gradient.addColorStop(0, '#fff');
-            gradient.addColorStop(0.85, colBall);
+            posY-rBall/6, rBall/8, posX, posY, rBall); //createRadialGradient(x0, y0, r0, x1, y1, r1); где 0 начало градинента, а 1 её конец
+            gradient.addColorStop(0, '#fff'); // цвет в точке 0(начале)
+            gradient.addColorStop(0.85, colBall); // цвет в точке 0.85 (конце)
             return gradient;
             }
             },
             draw : function(ctx){
-            // рисуем шарик на canvas
+            // рисуем фигуру на canvas
             with (this){
                         switch(figure){
                             case 1:
                                 //alert(figure);
-                                ctx.fillStyle = colorBall(ctx);
-                                ctx.beginPath();
-                                ctx.arc(posX, posY, rBall, 0, 2*Math.PI, false);
-                                ctx.closePath();
-                                ctx.fill();
+                                ctx.fillStyle = colorBall(ctx); //цвет фигуры
+                                ctx.beginPath(); //контур фигуры
+                                ctx.arc(posX, posY, rBall, 0, 2*Math.PI, false);//создаём круг
+                                ctx.closePath(); //замыкаем контур на ближайшей доступной точке контура
+                                ctx.fill(); // применение градиента и цвета на фигуру (заливка)
                             break;
                             case 2:
                                 ctx.fillStyle = colorBall(ctx);
                                 ctx.beginPath();
-                                ctx.fillRect(posX, posY, rBall * 2, rBall * 2);
+                                ctx.fillRect(posX, posY, rBall * 2, rBall * 2); //рисуем прямоугольник
                                 ctx.closePath();
-                                ctx.fill();
+                                ctx.fill(); 
                             break;
                             case 3:
                                 ctx.fillStyle = colorBall(ctx);
                                 ctx.beginPath();
-                                ctx.moveTo(posX, posY);
-                                ctx.lineTo(posX - rBall - 12, posY);
-                                ctx.lineTo(posX - rBall + 4, posY - rBall - 12);
+                                ctx.moveTo(posX, posY); // линия, рисующая начало треугольника
+                                ctx.lineTo(posX - rBall - 12, posY); //левая граница треугольника
+                                ctx.lineTo(posX - rBall + 4, posY - rBall - 12); // правая граница треугольника
                                 ctx.closePath();
                                 ctx.fill();
                             break;
@@ -70,13 +71,6 @@
             }
             }
             });
-            Treugol = new Class({
-                Extends: TBall,
-                initialize: function()
-                {
-                    this.figure = 2;
-                }
-            })
             
             function drawBack(ctx,col1,col2,w,h){
             // закрашиваем канвас градиентным фоном
@@ -84,15 +78,15 @@
             var g = ctx.createLinearGradient(0,0,0,h);
             g.addColorStop(1,col1);
             g.addColorStop(0,col2);
-            ctx.fillStyle = g;
-            ctx.fillRect(0,0,w,h);
+            ctx.fillStyle = g; //заливка градиентом
+            ctx.fillRect(0,0,w,h); //рисуем прямоугольный фон
             ctx.restore();
             }
             // инициализация работы
             function init(){
             canvas = document.getElementById('canvas');
             if (canvas.getContext){
-            ctx = canvas.getContext('2d');
+            ctx = canvas.getContext('2d'); // рисуем двумерное полотно (2d - двумерное пространсто)
             //рисуем фон
             drawBack(ctx,'#202020','#aaa',canvas.width,canvas.height);
             //создаем 10 шариков, заноси их в массив и выводим на canvas
